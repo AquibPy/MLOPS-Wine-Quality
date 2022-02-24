@@ -3,3 +3,5 @@ dvc[grive]
 sklearn
 pandas
 numpy
+pytest
+tox
