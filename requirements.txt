@@ -2,3 +2,4 @@ dvc
 dvc[grive]
 sklearn
 pandas
+numpy

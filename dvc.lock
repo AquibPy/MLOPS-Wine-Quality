@@ -32,3 +32,32 @@ stages:
       md5: 4bccf4d668cdc60115de42ba74d416ab
       size: 73633
       isexec: true
+  train_and_evaluate:
+    cmd: python src/train_and_evaluate.py --config=params.yaml
+    deps:
+    - path: data/processed/test_winequality.csv
+      md5: 01718da3bd6e206060ed00667ca1a389
+      size: 18510
+    - path: data/processed/train_winequality.csv
+      md5: 4bccf4d668cdc60115de42ba74d416ab
+      size: 73633
+    - path: src/train_and_evaluate.py
+      md5: 0a4c70fe109cae7e7f5dc3d13ea8e6f2
+      size: 2611
+    params:
+      params.yaml:
+        estimators.SGDClassifier.params.alpha: 0.9
+        estimators.SGDClassifier.params.l1_ratio: 0.4
+    outs:
+    - path: report/params.json
+      md5: a4aab0167612f21a6085dd05cfafdbf6
+      size: 41
+      isexec: true
+    - path: report/scores.json
+      md5: 7d964509d7c65a08bda680fef225a289
+      size: 89
+      isexec: true
+    - path: saved_models/model.joblib
+      md5: 90f447f0c22756a54c08a53e251f7ff8
+      size: 2151
+      isexec: true
