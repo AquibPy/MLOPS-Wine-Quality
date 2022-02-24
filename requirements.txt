@@ -5,3 +5,7 @@ pandas
 numpy
 pytest
 tox
+flake8
+fastapi
+uvicorn
+pydrive2
