@@ -1,0 +1,63 @@
+schema: '2.0'
+stages:
+  load_data:
+    cmd: python src/load_data.py --config=params.yaml
+    deps:
+    - path: src/get_data.py
+      md5: e5fb358d00565b0afe952ab36dbb0da5
+      size: 600
+    - path: src/load_data.py
+      md5: 20ea131c6666efef385408e1230eddf2
+      size: 594
+    outs:
+    - path: data/raw/winequality.csv
+      md5: d98e8f2eca228c11c4de1cc96866a54d
+      size: 91998
+      isexec: true
+  split_data:
+    cmd: python src/split_data.py --config=params.yaml
+    deps:
+    - path: data/raw/winequality.csv
+      md5: d98e8f2eca228c11c4de1cc96866a54d
+      size: 91998
+    - path: src/split_data.py
+      md5: 3b17b9756a2c0aa53755343da9b87ab9
+      size: 1041
+    outs:
+    - path: data/processed/test_winequality.csv
+      md5: 01718da3bd6e206060ed00667ca1a389
+      size: 18510
+      isexec: true
+    - path: data/processed/train_winequality.csv
+      md5: 4bccf4d668cdc60115de42ba74d416ab
+      size: 73633
+      isexec: true
+  train_and_evaluate:
+    cmd: python src/train_and_evaluate.py --config=params.yaml
+    deps:
+    - path: data/processed/test_winequality.csv
+      md5: 01718da3bd6e206060ed00667ca1a389
+      size: 18510
+    - path: data/processed/train_winequality.csv
+      md5: 4bccf4d668cdc60115de42ba74d416ab
+      size: 73633
+    - path: src/train_and_evaluate.py
+      md5: 0a4c70fe109cae7e7f5dc3d13ea8e6f2
+      size: 2611
+    params:
+      params.yaml:
+        estimators.SGDClassifier.params.alpha: 0.9
+        estimators.SGDClassifier.params.l1_ratio: 0.4
+    outs:
+    - path: report/params.json
+      md5: a4aab0167612f21a6085dd05cfafdbf6
+      size: 41
+      isexec: true
+    - path: report/scores.json
+      md5: 7d964509d7c65a08bda680fef225a289
+      size: 89
+      isexec: true
+    - path: saved_models/model.joblib
+      md5: 90f447f0c22756a54c08a53e251f7ff8
+      size: 2151
+      isexec: true
